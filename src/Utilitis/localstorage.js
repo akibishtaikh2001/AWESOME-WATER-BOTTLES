@@ -27,4 +27,6 @@ const addItemTOCartLocalStorage = id => {
     saveCartToLocalStorage(newCart);
 }
 
-export{ getCartFromLocalStorage, addItemTOCartLocalStorage }
+export{ getCartFromLocalStorage as getStoreCart,
+     addItemTOCartLocalStorage as addToStoredCart
+    }
