@@ -2,6 +2,7 @@ import React, { use, useEffect, useState } from 'react';
 import Bottle from '../Bottle/Bottle';
 import './Bottles.css'
 import { addToStoredCart, getStoreCart } from '../../Utilitis/localstorage';
+import Cart from '../Cart/Cart';
 
 const Bottles = ({ bottlesPromise }) => {
     const [cart, setCart] = useState([]);
@@ -9,25 +10,25 @@ const Bottles = ({ bottlesPromise }) => {
     const bottles = use(bottlesPromise);
 
     // useEffect
-    useEffect( () => {
+    useEffect(() => {
         const storedCartIds = getStoreCart();
         // console.log(storedCartIds, bottles);
 
         const storedCart = [];
 
-        for(const id of storedCartIds){
+        for (const id of storedCartIds) {
             // console.log(id);
             const cartBottle = bottles.find(bottle => bottle.id === id);
-            if(cartBottle){
+            if (cartBottle) {
                 storedCart.push(cartBottle);
             }
-        
+
         }
 
         setCart(storedCart);
 
 
-    }, [bottles] )
+    }, [bottles])
 
 
     const handleAddToCart = (bottle) => {
@@ -40,22 +41,32 @@ const Bottles = ({ bottlesPromise }) => {
 
     }
 
+    const handelRemoveFromCart = id => {
+        console.log('remove item from the cart', id);
+
+        const remainingCart = cart.filter(bottle => bottle.id !== id);
+        setCart(remainingCart)
+
+    }
+
     // console.log(bottles);
 
     return (
         <div>
             <h3>Bottles: {bottles.length} </h3>
             <p>Added to cart: {cart.length} </p>
-           <div className='bottles_container'>
-             {
-                bottles.map(bottle => <Bottle
-                    key={bottle.id}
-                    handleAddToCart={handleAddToCart}
-                    bottle={bottle} ></Bottle>)
-            }
-           </div>
+            <Cart cart={cart}
+                handelRemoveFromCart={handelRemoveFromCart} ></Cart>
+            <div className='bottles_container'>
+                {
+                    bottles.map(bottle => <Bottle
+                        key={bottle.id}
+                        handleAddToCart={handleAddToCart}
+                        bottle={bottle} ></Bottle>)
+                }
+            </div>
         </div>
     );
 };
-     
+
 export default Bottles;
