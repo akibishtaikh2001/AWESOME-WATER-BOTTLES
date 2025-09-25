@@ -57,5 +57,5 @@ const Bottles = ({ bottlesPromise }) => {
         </div>
     );
 };
-
+ 
 export default Bottles;
